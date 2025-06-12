@@ -1,0 +1,41 @@
+# Build output
+bin/
+obj/
+out/
+
+# Rider / VS Code / VS
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ASP.NET logs
+*.log
+
+# Secrets and local settings
+appsettings.Development.json
+secrets.json
+
+# DotNet user-secrets
+**/secrets.json
+
+# Packages
+*.nupkg
+packages/
+.nuget/
+project.lock.json
+project.fragment.lock.json
+
+# Auto-generated files
+wwwroot/lib/
+wwwroot/dist/
+node_modules/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Publish output
+publish/
