@@ -1,0 +1,7 @@
+C:\Users\yazan\source\repos\NewsSite\obj\Debug\net6.0\NewsSite.csproj.AssemblyReference.cache
+C:\Users\yazan\source\repos\NewsSite\obj\Debug\net6.0\NewsSite.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yazan\source\repos\NewsSite\obj\Debug\net6.0\NewsSite.AssemblyInfoInputs.cache
+C:\Users\yazan\source\repos\NewsSite\obj\Debug\net6.0\NewsSite.AssemblyInfo.cs
+C:\Users\yazan\source\repos\NewsSite\obj\Debug\net6.0\NewsSite.csproj.CoreCompileInputs.cache
+C:\Users\yazan\source\repos\NewsSite\obj\Debug\net6.0\NewsSite.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\yazan\source\repos\NewsSite\obj\Debug\net6.0\NewsSite.MvcApplicationPartsAssemblyInfo.cache
