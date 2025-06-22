@@ -16,6 +16,7 @@ out/
 
 # Secrets and local settings
 appsettings.Development.json
+appsettings.json
 secrets.json
 
 # DotNet user-secrets
