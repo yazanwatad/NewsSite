@@ -1,42 +1,81 @@
-# Build output
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/NewSite
+# Build results
 bin/
 obj/
-out/
 
-# Rider / VS Code / VS
-.vscode/
-.idea/
+# User-specific files
 *.user
-*.suo
 *.userosscache
+*.suo
 *.sln.docstates
 
-# ASP.NET logs
+# Logs
 *.log
+logs/
 
-# Secrets and local settings
-appsettings.Development.json
-appsettings.json
-secrets.json
+# Visual Studio Code
+.vscode/
 
-# DotNet user-secrets
-**/secrets.json
+# Rider IDE
+.idea/
+*.sln.iml
 
-# Packages
-*.nupkg
-packages/
-.nuget/
-project.lock.json
-project.fragment.lock.json
-
-# Auto-generated files
-wwwroot/lib/
-wwwroot/dist/
-node_modules/
-
-# OS-specific
+# OS-specific files
 .DS_Store
 Thumbs.db
 
+# Dependency directories
+packages/
+.vs/
+
+# DotNet specific
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.orig
+
+# Generated files
+*.generated.cs
+*.g.cs
+*.g.i.cs
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+
 # Publish output
-publish/
+# wwwroot/
+dist/
+node_modules/
+
+# Secrets
+secrets.json
+.env
+.env.*
+
+# Resharper
+_ReSharper.Caches/
+
+# Linux-specific
+*.pid
+
+# Windows-specific
+*.db
+
+# Microsoft package repository configuration file
+packages-microsoft-prod.deb
+
+# appsetting
+appsettings.json

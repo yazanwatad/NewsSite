@@ -1,43 +1,94 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using NewsSite.BL;
+using NewsSite.Models;
 namespace NewsSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        // GET: api/<AuthController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IConfiguration _config;
+
+        public AuthController(IConfiguration config)
         {
-            return new string[] { "value1", "value2" };
+            _config = config;
         }
 
-        // GET api/<AuthController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequest request)
         {
-            return "value";
+            var user = new User(_config);
+            var token = user.LogIn(request.Password, request.Email);
+            if (token == null)
+                return Unauthorized("Invalid credentials or user locked.");
+
+            return Ok(new { token });
         }
 
-        // POST api/<AuthController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] RegisterRequest request)
         {
+            try
+            {
+                var user = new User();
+                bool success = user.Register(request.Name, request.Email, request.Password);
+                if (!success)
+                    return BadRequest("Registration failed. User may already exist.");
+
+                return Ok("Registration successful.");
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                if (ex.Number == 2627) // UNIQUE constraint violation
+                {
+                    return BadRequest("A user with this email already exists.");
+                }
+                return BadRequest("Registration failed due to a database error.");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Registration failed. Please try again.");
+            }
         }
 
-        // PUT api/<AuthController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        
+        [HttpPost("validate")]
+        public IActionResult Validate([FromHeader(Name = "Authorization")] string authHeader)
         {
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                return Unauthorized("Missing or invalid Authorization header.");
+        
+            var jwt = authHeader.Substring("Bearer ".Length);
+        
+            try
+            {
+                var user = new User().ExtractUserFromJWT(jwt); // Extract user details from the JWT token
+                if (user == null)
+                    return Unauthorized("Invalid token.");
+        
+                return Ok(new { message = "Token is valid.", userId = user.Id, username = user.Name });
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized($"Token validation failed: {ex.Message}");
+            }
         }
-
-        // DELETE api/<AuthController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut("update")]
+        public IActionResult Update([FromHeader(Name = "Authorization")] string authHeader, [FromBody] UpdateUserRequest request)
         {
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+                return Unauthorized();
+
+            var jwt = authHeader.Substring("Bearer ".Length);
+            var user = new User().ExtractUserFromJWT(jwt);
+
+            bool success = user.UpdateDetails(user.Id, request.Name, request.Password);
+            if (!success)
+                return NotFound("User not found.");
+
+            return Ok("User updated.");
         }
     }
 }
